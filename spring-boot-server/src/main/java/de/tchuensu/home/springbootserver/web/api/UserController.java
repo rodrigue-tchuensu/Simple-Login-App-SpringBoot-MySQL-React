@@ -22,13 +22,13 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-public class UserEndpoint {
+public class UserController {
 
     private UserDao userDao;
     private PasswordEncryptorManager passwordEncryptorManager;
 
     @Autowired
-    public UserEndpoint(UserDao userDao, PasswordEncryptorManager passwordEncryptorManager) {
+    public UserController(UserDao userDao, PasswordEncryptorManager passwordEncryptorManager) {
         this.userDao = userDao;
         this.passwordEncryptorManager = passwordEncryptorManager;
     }

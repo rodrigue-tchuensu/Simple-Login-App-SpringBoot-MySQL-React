@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/authentication")
-public class AuthenticationEndpoint {
+public class AuthenticationController {
 
     private UserDao userDao;
     private PasswordEncryptorManager passwordEncryptorManager;
 
     @Autowired
-    public AuthenticationEndpoint(UserDao userDao, PasswordEncryptorManager passwordEncryptorManager) {
+    public AuthenticationController(UserDao userDao, PasswordEncryptorManager passwordEncryptorManager) {
         this.userDao = userDao;
         this.passwordEncryptorManager = passwordEncryptorManager;
     }
