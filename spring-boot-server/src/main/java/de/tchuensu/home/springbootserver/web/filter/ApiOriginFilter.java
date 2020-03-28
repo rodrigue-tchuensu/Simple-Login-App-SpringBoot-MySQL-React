@@ -5,6 +5,13 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
+/**
+ *
+ * @autor  Rodrigue Tchuensu P.
+ */
+
+
 @WebFilter(filterName = "ApiOriginFilter")
 public class ApiOriginFilter implements Filter {
     public void destroy() {

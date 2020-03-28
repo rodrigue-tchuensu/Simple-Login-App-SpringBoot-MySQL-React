@@ -2,11 +2,15 @@ package de.tchuensu.home.springbootserver.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+
+/**
+ *
+ * @autor  Rodrigue Tchuensu P.
+ */
 
 @Entity
+@Table(name = "user")
 public class User {
 
     @Id
@@ -18,15 +22,15 @@ public class User {
     private String email;
 
     @JsonIgnore
-    private String password;
+    @Column(name = "password_hash")
+    private String passwordHash;
 
     public User() {}
-
-    public User(Long id, String username, String email, String password) {
-        this.id = id;
+//It is the responsibility of the user of this class to initiate the user with a password hash and not a plaintext password
+    public User(Long id, String username, String email, String passwordHash) {
         this.username = username;
         this.email = email;
-        this.password = password;
+        this.passwordHash = passwordHash;
     }
 
     public Long getId() {
@@ -53,12 +57,13 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    //It is the responsibility of the user of this class to give in a hashed password and not a plaintext password to setup this field.
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     @Override
@@ -67,7 +72,7 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
                 '}';
     }
 }

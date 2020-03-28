@@ -11,6 +11,11 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.util.Date;
 
+/**
+ *
+ * @autor  Rodrigue Tchuensu P.
+ */
+
 public class JWTTokenKeyTools {
 
 

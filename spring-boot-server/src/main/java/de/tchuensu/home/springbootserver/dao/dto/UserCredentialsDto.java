@@ -1,5 +1,11 @@
 package de.tchuensu.home.springbootserver.dao.dto;
 
+/**
+ *
+ * @autor  Rodrigue Tchuensu P.
+ */
+
+
 public class UserCredentialsDto {
 
     private String username;

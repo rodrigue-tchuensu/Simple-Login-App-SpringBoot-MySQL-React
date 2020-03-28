@@ -4,6 +4,7 @@ package de.tchuensu.home.springbootserver.web.api;
 import de.tchuensu.home.springbootserver.dao.UserDao;
 import de.tchuensu.home.springbootserver.model.User;
 import de.tchuensu.home.springbootserver.services.JWTTokenKeyTools;
+import de.tchuensu.home.springbootserver.services.PasswordEncryptorManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +15,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ *
+ * @autor  Rodrigue Tchuensu P.
+ */
+
 @RestController
 @CrossOrigin(origins = "*")
 public class UserEndpoint {
 
     private UserDao userDao;
+    private PasswordEncryptorManager passwordEncryptorManager;
 
     @Autowired
-    public UserEndpoint(UserDao userDao) {
+    public UserEndpoint(UserDao userDao, PasswordEncryptorManager passwordEncryptorManager) {
         this.userDao = userDao;
+        this.passwordEncryptorManager = passwordEncryptorManager;
     }
+
 
     @GetMapping(value= "user")
     public ResponseEntity<User> getUser(@RequestHeader("Authorization") String authenticationToken) {
