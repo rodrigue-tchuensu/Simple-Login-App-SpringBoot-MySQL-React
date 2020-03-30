@@ -6,6 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ *
+ * @autor  Rodrigue Tchuensu P.
+ */
+
 @Repository
 public interface UserDao extends JpaRepository<User, Long> {
 
