@@ -1,7 +1,8 @@
 package de.tchuensu.home.springbootserver.services;
 
-import de.tchuensu.home.springbootserver.dao.UserDao;
+import de.tchuensu.home.springbootserver.dao.repository.UserDao;
 import de.tchuensu.home.springbootserver.web.exception.ForbiddenException;
+import de.tchuensu.home.springbootserver.web.exception.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,4 +35,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
         throw new ForbiddenException("Authorization not granted");
     }
+
+    @Override
+    public void requestIdMatchesTokenId(Long tokenId, Long requestId) {
+        if(tokenId != requestId)
+            throw new UnauthorizedException("User ID credential not sufficient!");
+    }
+
 }

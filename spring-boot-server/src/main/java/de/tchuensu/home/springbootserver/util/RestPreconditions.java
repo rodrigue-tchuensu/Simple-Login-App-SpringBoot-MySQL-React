@@ -3,6 +3,8 @@ package de.tchuensu.home.springbootserver.util;
 import de.tchuensu.home.springbootserver.web.exception.RequestHeaderException;
 import de.tchuensu.home.springbootserver.web.exception.ResourceNotFoundException;
 import de.tchuensu.home.springbootserver.web.exception.UserCredentialException;
+import org.springframework.web.bind.MissingPathVariableException;
+
 
 /**
  *
@@ -108,4 +110,22 @@ public class RestPreconditions {
         return obj;
     }
 
+    /*
+    public static  <T> T checkPathVariableNotNull (final T obj) {
+        if (obj == null) {
+            throw new MissingPathVariableException;
+        }
+
+        return obj;
+    }
+
+    public static  <T> T checkPathVariableNotNull (final T obj, String errorMessage) {
+        if (obj == null) {
+            throw new MissingPathVariableException();
+        }
+
+        return obj;
+    }
+
+     */
 }

@@ -1,5 +1,6 @@
 package de.tchuensu.home.springbootserver.services;
 
+import de.tchuensu.home.springbootserver.dao.dto.model.UserDto;
 import de.tchuensu.home.springbootserver.model.User;
 
 import java.util.List;
@@ -11,36 +12,52 @@ import java.util.List;
 
 public interface UserService {
 
+
+    // Create
+
     /**
      *
+     *  Saves a new user
      *
      * @param userDto
      * @return
      */
-    //User registerUser(UserDto userDto);
+    User addUser(UserDto userDto);
+    //void changePassword(User user, String newPassword);
 
+
+    // Read
     /**
      *
+     *  Gets a user with the corresponding username
      *
      * @param username
      * @return
      */
-    User findUserByUsername(String username);
+    UserDto getUserByUsername(String username);
 
     /**
      *
+     *  Gets a user eith the coressponding Id number
      *
      * @param Id
      * @return
      */
-    User findUserById(Long Id);
+    UserDto getUserById(Long Id);
 
     /**
      *
+     *  Gets all the users stored in the db
+     *
      * @return
      */
-    List<User> findAllUsers();
+    List<UserDto> getAllUsers();
 
 
-    //void changePassword(User user, String newPassword);
+    // Update
+
+
+    // Delete
+
+
 }

@@ -1,6 +1,6 @@
 package de.tchuensu.home.springbootserver.services;
 
-import de.tchuensu.home.springbootserver.dao.dto.UserCredentialsDto;
+import de.tchuensu.home.springbootserver.dao.dto.model.AthenticationData;
 
 /**
  *
@@ -14,5 +14,5 @@ public interface AuthenticationService {
      * @param userCredentials
      * @return
      */
-    String authenticateUser(UserCredentialsDto userCredentials);
+    String authenticateUser(AthenticationData userCredentials);
 }

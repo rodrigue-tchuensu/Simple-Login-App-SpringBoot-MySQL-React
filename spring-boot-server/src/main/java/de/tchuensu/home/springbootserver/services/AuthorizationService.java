@@ -13,4 +13,6 @@ public interface AuthorizationService {
      * @return
      */
     Long resourceAccessAuthorized(String authenticationToken);
+
+    void requestIdMatchesTokenId(Long tokenId, Long requestId);
 }

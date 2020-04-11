@@ -1,7 +1,7 @@
 package de.tchuensu.home.springbootserver.services;
 
-import de.tchuensu.home.springbootserver.dao.UserDao;
-import de.tchuensu.home.springbootserver.dao.dto.UserCredentialsDto;
+import de.tchuensu.home.springbootserver.dao.repository.UserDao;
+import de.tchuensu.home.springbootserver.dao.dto.model.AthenticationData;
 import de.tchuensu.home.springbootserver.model.User;
 import de.tchuensu.home.springbootserver.web.exception.ForbiddenException;
 import de.tchuensu.home.springbootserver.web.exception.ResourceNotFoundException;
@@ -32,13 +32,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @return
      */
     @Override
-    public String authenticateUser(UserCredentialsDto userCredentials) {
+    public String authenticateUser(AthenticationData userCredentials) {
         User user;
-        try {
-            user = userService.findUserByUsername(userCredentials.getUsername() );
-        } catch (ResourceNotFoundException ex) {
-            throw new ForbiddenException(ex.getMessage() + "\nAuthentication Failed !");
+        user = userDao.findUserByUsername(userCredentials.getUsername());
+        if(user == null ) {
+            throw new ForbiddenException("Authentication Failed !");
         }
+
         if( passwordEncryptorManager.checkPassword(userCredentials.getPassword(), user.getPasswordHash() ) ) {
             return JWTTokenKeyTools.createJWT(user.getId(), 3600000);
         }

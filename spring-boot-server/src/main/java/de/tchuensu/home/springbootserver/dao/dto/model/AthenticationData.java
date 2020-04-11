@@ -1,4 +1,4 @@
-package de.tchuensu.home.springbootserver.dao.dto;
+package de.tchuensu.home.springbootserver.dao.dto.model;
 
 /**
  *
@@ -6,14 +6,14 @@ package de.tchuensu.home.springbootserver.dao.dto;
  */
 
 
-public class UserCredentialsDto {
+public class AthenticationData {
 
     private String username;
     private String password;
 
-    public UserCredentialsDto() {}
+    public AthenticationData() {}
 
-    public UserCredentialsDto(String username, String password) {
+    public AthenticationData(String username, String password) {
         this.username = username;
         this.password = password;
     }

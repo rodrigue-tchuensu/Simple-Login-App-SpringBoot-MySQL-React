@@ -3,6 +3,7 @@ package de.tchuensu.home.springbootserver.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  *
@@ -14,7 +15,7 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
@@ -25,13 +26,26 @@ public class User {
     @Column(name = "password_hash")
     private String passwordHash;
 
+    @Column(name = "can_access_any_data" )
+    private boolean canAccessAllData;
+
     public User() {}
-//It is the responsibility of the user of this class to initiate the user with a password hash and not a plaintext password
-    public User(Long id, String username, String email, String passwordHash) {
+
+    //It is the responsibility of the user of this class to initiate the user with a password hash and not a plaintext password
+    public User(String username, String email, String passwordHash) {
         this.username = username;
         this.email = email;
         this.passwordHash = passwordHash;
+        this.canAccessAllData = false;
     }
+
+    public User(String username, String email, String passwordHash, boolean canAccessAllData) {
+        this.username = username;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.canAccessAllData = canAccessAllData;
+    }
+
 
     public Long getId() {
         return id;
@@ -57,13 +71,37 @@ public class User {
         this.email = email;
     }
 
-    //It is the responsibility of the user of this class to give in a hashed password and not a plaintext password to setup this field.
     public String getPasswordHash() {
         return passwordHash;
     }
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public boolean isCanAccessAllData() {
+        return canAccessAllData;
+    }
+
+    public void setCanAccessAllData(boolean canAccessAllData) {
+        this.canAccessAllData = canAccessAllData;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return isCanAccessAllData() == user.isCanAccessAllData() &&
+                getId().equals(user.getId()) &&
+                getUsername().equals(user.getUsername()) &&
+                getEmail().equals(user.getEmail()) &&
+                getPasswordHash().equals(user.getPasswordHash());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUsername(), getEmail(), getPasswordHash(), isCanAccessAllData());
     }
 
     @Override
@@ -73,6 +111,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
+                ", canAccessAllData=" + canAccessAllData +
                 '}';
     }
 }

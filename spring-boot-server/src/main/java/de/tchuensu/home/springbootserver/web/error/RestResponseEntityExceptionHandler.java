@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -62,6 +63,19 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(ex, " MethodArgumentNotValidException \n" + ex.getMessage(), headers, HttpStatus.BAD_REQUEST, request);
     }
 
+    @Override
+    protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return handleExceptionInternal(ex, " MissingPathVariableException" + ex.getMessage() ,headers, HttpStatus.BAD_REQUEST, request);
+    }
+
+    // Rodrigue Tchuensu P.
+    // DuplicateEntityException handling
+    @ExceptionHandler(value = {DuplicateEntityException.class})
+    protected ResponseEntity<Object> handleDuplicatEntity(final RuntimeException rtex, final WebRequest request) {
+        //final String bodyOfResponse = "This Request is forbidden for some reason";
+        return handleExceptionInternal(rtex, rtex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
 
 
     //Rodrigue Tchuensu P. Contribution
@@ -88,8 +102,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(value = { EntityNotFoundException.class, ResourceNotFoundException.class })
     protected ResponseEntity<Object> handleNotFound(final RuntimeException ex, final WebRequest request) {
-        final String bodyOfResponse = "This should be application specific";
-        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        return handleExceptionInternal(ex, "The requested resource was not found", new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
 
@@ -113,7 +126,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     // 411 Length Required
 
-    // 412 412 Precondition Failed
+    // 412 Precondition Failed
     @ExceptionHandler(value = {RequestHeaderException.class})
     protected ResponseEntity<Object> handleHeaderPrecondition(final RuntimeException rtex, final WebRequest request) {
         //final String bodyOfResponse = "This Request is forbidden for some reason";
@@ -131,6 +144,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     // 417 Expectation Failed
 
     //
+
+
+
 
     // 500
 

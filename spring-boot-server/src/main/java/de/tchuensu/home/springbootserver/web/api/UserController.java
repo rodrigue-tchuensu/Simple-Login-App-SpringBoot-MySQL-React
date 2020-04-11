@@ -1,21 +1,17 @@
 package de.tchuensu.home.springbootserver.web.api;
 
 
-import de.tchuensu.home.springbootserver.dao.UserDao;
-import de.tchuensu.home.springbootserver.model.User;
+import de.tchuensu.home.springbootserver.dao.dto.model.UserDto;
 import de.tchuensu.home.springbootserver.services.AuthorizationServiceImpl;
-import de.tchuensu.home.springbootserver.services.JWTTokenKeyTools;
-import de.tchuensu.home.springbootserver.services.PasswordEncryptorManager;
 import de.tchuensu.home.springbootserver.services.UserServiceImpl;
 import de.tchuensu.home.springbootserver.util.RestPreconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -25,6 +21,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
+@RequestMapping("users")
 public class UserController {
 
     @Autowired
@@ -33,46 +30,57 @@ public class UserController {
     @Autowired
     AuthorizationServiceImpl authorizationService;
 
-    private UserDao userDao;
-    private PasswordEncryptorManager passwordEncryptorManager;
-
-    @Autowired
-    public UserController(UserDao userDao, PasswordEncryptorManager passwordEncryptorManager) {
-        this.userDao = userDao;
-        this.passwordEncryptorManager = passwordEncryptorManager;
-    }
-
-
-    @GetMapping(value= "user")
-    public ResponseEntity<User> getUser(@RequestHeader("Authorization") String authenticationToken) {
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getAllUsers(@RequestHeader("Authorization") String authenticationToken) {
 
         RestPreconditions.checkRequestHeaderNotNull(authenticationToken, "Authorization header Missing");
 
         //We check that the user trying to issue this required is registered in our database.
         //If the user is found to be registered in the database the userId is returned.
         //If it is not the case this method throws a ForbiddenException
-        Long userId = authorizationService.resourceAccessAuthorized(authenticationToken);
-        User user = userService.findUserById(userId);
+        Long id = authorizationService.resourceAccessAuthorized(authenticationToken);
 
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
+        List<UserDto> usersList;
 
-
-    @GetMapping(value= "users")
-    public ResponseEntity<List<User>> getAllUsers(@RequestHeader("Authorization") String authenticationToken) {
-
-        RestPreconditions.checkRequestHeaderNotNull(authenticationToken, "Authorization header Missing");
-
-        //We check that the user trying to issue this required is registered in our database.
-        //If the user is found to be registered in the database the userId is returned.
-        //If it is not the case this method throws a ForbiddenException
-        authorizationService.resourceAccessAuthorized(authenticationToken);
-
-        //we get the list of users
-        List<User> usersList = userService.findAllUsers();
+        //we check that the user has access right on all data in the user tab
+        if(userService.canUserAccessAllData(id)) {
+            usersList = userService.getAllUsers();
+        }
+        else {
+            usersList = new LinkedList<>();
+            usersList.add(userService.getUserById(id));
+        }
 
         return new ResponseEntity<>(usersList, HttpStatus.OK);
     }
 
+    @GetMapping(value= "/{id}")
+    public ResponseEntity<UserDto> getUser(@RequestHeader("Authorization") String authenticationToken, @PathVariable long id) {
+
+        RestPreconditions.checkRequestHeaderNotNull(authenticationToken, "Authorization header Missing");
+
+        //We check that the ID transmitted in authorization token is still valid
+        // that is if the ID of the user trying to issue this request is registered in our database.
+        //If the user is found to be registered in the database the userId stored in the jwt is returned.
+        //If it is not the case this method throws a ForbiddenException
+        Long userIdFromJWT = authorizationService.resourceAccessAuthorized(authenticationToken);
+
+
+
+        if(! userService.canUserAccessAllData(userIdFromJWT)) {
+            authorizationService.requestIdMatchesTokenId(userIdFromJWT, id);
+        }
+
+        UserDto user= userService.getUserById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+
+    @PostMapping
+    public ResponseEntity<Object> addUser(@RequestBody UserDto userDto) {
+
+        userService.addUser(userDto);
+        return new ResponseEntity<>(null, HttpStatus.CREATED);
+    }
 
 }

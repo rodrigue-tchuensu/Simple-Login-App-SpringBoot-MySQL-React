@@ -1,12 +1,8 @@
 package de.tchuensu.home.springbootserver.web.api;
 
 
-import de.tchuensu.home.springbootserver.dao.UserDao;
-import de.tchuensu.home.springbootserver.dao.dto.UserCredentialsDto;
-import de.tchuensu.home.springbootserver.model.User;
+import de.tchuensu.home.springbootserver.dao.dto.model.AthenticationData;
 import de.tchuensu.home.springbootserver.services.AuthenticationServiceImpl;
-import de.tchuensu.home.springbootserver.services.JWTTokenKeyTools;
-import de.tchuensu.home.springbootserver.services.PasswordEncryptorManager;
 import de.tchuensu.home.springbootserver.util.RestPreconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +24,7 @@ public class AuthenticationController {
 
     @PostMapping
     //@ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> authenticateUser (@RequestBody UserCredentialsDto userCredentials) {
+    public ResponseEntity<String> authenticateUser (@RequestBody AthenticationData userCredentials) {
 
         RestPreconditions.checkCredentialNotNull(userCredentials, "User Credential lacking");
         RestPreconditions.checkCredentialNotNull(userCredentials.getUsername(), "Username is required");
