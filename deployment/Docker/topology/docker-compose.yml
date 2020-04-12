@@ -1,0 +1,81 @@
+
+version: '2'
+
+# Define Services
+
+services:
+
+
+  #Database Service (MySQL)
+  
+  mysql:
+    build: ../docker-images/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    networks:
+     deployment_network:
+      ipv4_address: 172.16.238.15
+    container_name: app-mysql
+   
+  # Database UI administration Service   
+  phpmyadmin:
+    build: ../docker-images/php-my-admin
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "6060:80"
+    links:
+      - mysql:db
+    networks:
+     - deployment_network      
+    container_name: app-phpmyadmin
+    
+  # Back end Service ( spring boot server)
+  spring-server:
+    build: ../docker-images/spring-server
+    ports:
+      - "8090:8090"
+    depends_on:
+     - mysql
+    environment:
+    
+     SPRING_DATASOURCE_URL: jdbc:mysql://172.16.238.15:3306/registration_and_login_app_db
+     
+     SPRING_DATASOURCE_USERNAME: root
+     
+     SPRING_DATASOURCE_PASSWORD: root
+     
+    networks:
+     - deployment_network
+    container_name: app-server
+   
+  #Front end services
+  
+  react-gui:
+    build:
+     context: ../docker-images/react-gui
+     dockerfile: Dockerfile
+     args: 
+      REACT_APP_API_BASE_URL: http://192.168.99.100:8090/api/
+    
+    ports:
+     - "8080:80"
+    networks:
+     - deployment_network
+    container_name: app-gui
+  
+# Network created to facilitate communication between containers
+
+networks: 
+ deployment_network:
+  driver: bridge
+  ipam: 
+   driver: default
+   config: 
+   -
+    subnet: 172.16.238.0/24
+
+    
+    
