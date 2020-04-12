@@ -32,7 +32,8 @@ class Welcome extends Component {
   componentDidMount = () => this.fetchData ()
 
   fetchData = () => { 
-      request.get('user', (err, res) => {
+    console.log(request.auth.getSubject())
+      request.get('users/' + request.auth.getSubject(), (err, res) => {
           if(err) {
               console.log(err)
           } else {
