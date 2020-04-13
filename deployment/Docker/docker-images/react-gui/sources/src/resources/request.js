@@ -2,12 +2,10 @@
 const request = require('superagent');
 
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8090/api';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8090/api/';
 
 
 const login = (user, callback) => {
-	console.log("process.env.REACT_APP_API_BASE_URL")
-	console.log(process.env.REACT_APP_API_BASE_URL )
     request.post(API_BASE_URL  + 'authentication')
             .set('Content-Type', 'application/json')
             .set('Accept', 'text/plain')
@@ -89,7 +87,7 @@ const auth = {
     },
     getSubject(){
         const tokenString = this.decodeJWT(JSON.parse(sessionStorage.getItem('jwt')))
-        return tokenString.sub
+        return tokenString.iss
     }
   }
 
