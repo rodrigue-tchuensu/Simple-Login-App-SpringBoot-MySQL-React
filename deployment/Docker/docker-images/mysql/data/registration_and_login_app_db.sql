@@ -10,12 +10,12 @@ id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 username VARCHAR(30) UNIQUE NOT NULL,
 email VARCHAR(30) UNIQUE NOT NULL,
 `password_hash` VARCHAR(60) NOT NULL,
-`can_access_all_data` BOOL NOT NULL DEFAULT FALSE,
+`can_access_any_data` BOOL NOT NULL DEFAULT FALSE,
 PRIMARY KEY (id)
 )ENGINE=INNODB;
 
 
-INSERT INTO user(username, email, `password_hash`, `can_access_all_data`)
+INSERT INTO user(username, email, `password_hash`, `can_access_any_data`)
 VALUES ('admin','admin@me.de','taALWdDATA3hBJ6PQzVoOXtWl9ptksVTwNPS7bp+EF7AP6jmSrm+HQ==', TRUE); 
 
 INSERT INTO user(username, email, `password_hash`) 
