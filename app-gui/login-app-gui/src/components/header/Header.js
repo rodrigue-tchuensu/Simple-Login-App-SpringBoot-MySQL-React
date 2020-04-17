@@ -35,9 +35,18 @@ const Header = withRouter( ({history}) => (
       }
       {
         !request.auth.isAuthenticated() && (<span>
-          <Link to="/login">
+          <Link to="/simple-app/login">
             <Button style={{color: '#ffffff'}}>
-                LogIn 
+                Login 
+            </Button>
+          </Link>
+        </span>)
+      }
+      {
+        !request.auth.isAuthenticated() && (<span>
+          <Link to="/simple-app/sign-up">
+            <Button style={{color: '#ffffff'}}>
+                Sign-Up 
             </Button>
           </Link>
         </span>)

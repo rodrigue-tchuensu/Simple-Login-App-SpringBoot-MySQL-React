@@ -6,7 +6,7 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:809
 
 
 const login = (user, callback) => {
-    request.post(API_BASE_URL  + 'authentication')
+    request.post(API_BASE_URL  + 'login')
             .set('Content-Type', 'application/json')
             .set('Accept', 'text/plain')
             .send(user)
@@ -15,12 +15,22 @@ const login = (user, callback) => {
             }) 
 }
 
+const singup = (url,body, callback) => {
+  request.post(API_BASE_URL + url)
+         .set('Content-Type', 'application/json')
+         .set('Accept', 'application/json')
+         .send(body)
+         .end((err, res) => {
+             callback(err,res)
+         })
+}
+
 const logout = (callback)=> {
     callback()
 }
 
 const get = (url, callback) => {
-    request.get(API_BASE_URL  + url)
+    request.get(API_BASE_URL + url)
            .set('Content-Type', 'application/json')
            .set('Accept', 'application/json')
            .set('Authorization', "Bearer " + JSON.parse(sessionStorage.getItem('jwt')))
@@ -32,7 +42,7 @@ const get = (url, callback) => {
 
 
 const post = (url,body, callback) => {
-    request.post(API_BASE_URL  + url)
+    request.post(API_BASE_URL + url)
            .set('Content-Type', 'application/json')
            .set('Accept', 'application/json')
            .set('Authorization', "Bearer " + JSON.parse(sessionStorage.getItem('jwt')))
@@ -44,7 +54,7 @@ const post = (url,body, callback) => {
 
 
 const put = (url, body, callback) => {
-    request.put(API_BASE_URL  + url)
+    request.put(API_BASE_URL + url)
            .set('Content-Type', 'application/json')
            .set('Accept', 'application/json')
            .set('Authorization', "Bearer " + JSON.parse(sessionStorage.getItem('jwt')))
@@ -56,7 +66,7 @@ const put = (url, body, callback) => {
 
 
 const remove = (url, body, callback) => {
-    request.delete(API_BASE_URL  + url)
+    request.delete(API_BASE_URL + url)
            .set('Content-Type', 'application/json')
            .set('Accept', 'application/json')
            .set('Authorization', "Bearer " + JSON.parse(sessionStorage.getItem('jwt')))
@@ -74,6 +84,7 @@ const auth = {
         return false
     },
     authenticate(jwt, cb) {
+      //console.log(`In the fxn authenticate jwt = ${JSON.stringify(jwt)}`)
       sessionStorage.setItem('jwt', JSON.stringify(jwt))
       cb()
     },
@@ -82,12 +93,15 @@ const auth = {
       cb()
     },
     decodeJWT(token){
-        var JwtToken = JSON.parse(atob(token.split('.')[1]));
-        return JwtToken  
+
+        const jwtPayload = JSON.parse(atob(token.split('.')[1]));
+        //console.log(`The parse JWT is:  ${jwtPayload.sub}`);
+        
+        return jwtPayload;  
     },
     getSubject(){
-        const tokenString = this.decodeJWT(JSON.parse(sessionStorage.getItem('jwt')))
-        return tokenString.iss
+        const jwtPayload = this.decodeJWT(JSON.parse(sessionStorage.getItem('jwt')))
+        return jwtPayload.sub
     }
   }
 
@@ -98,6 +112,7 @@ export{
     put,
     remove,
     login,
+    singup,
     logout,
     auth
 }
