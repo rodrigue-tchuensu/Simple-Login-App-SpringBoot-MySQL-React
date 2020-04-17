@@ -36,30 +36,22 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler({ ConstraintViolationException.class })
     public ResponseEntity<Object> handleBadRequest(final ConstraintViolationException ex, final WebRequest request) {
-        //final String bodyOfResponse = "This should be application specific";
-        //return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
         return handleExceptionInternal(ex, " ConstraintViolationException \n" + ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler({ DataIntegrityViolationException.class })
     public ResponseEntity<Object> handleBadRequest(final DataIntegrityViolationException ex, final WebRequest request) {
-        final String bodyOfResponse = "This should be application specific";
-        //return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
         return handleExceptionInternal(ex, " DataIntegrityViolationException \n" + ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(final HttpMessageNotReadableException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-        final String bodyOfResponse = "This should be application specific";
-        // ex.getCause() instanceof JsonMappingException, JsonParseException // for additional information later on
-        //return handleExceptionInternal(ex, bodyOfResponse, headers, HttpStatus.BAD_REQUEST, request);
         return handleExceptionInternal(ex, " HttpMessageNotReadableException \n" + ex.getMessage(), headers, HttpStatus.BAD_REQUEST, request);
     }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-        final String bodyOfResponse = "This should be application specific";
-        //return handleExceptionInternal(ex, bodyOfResponse, headers, HttpStatus.BAD_REQUEST, request);
+
         return handleExceptionInternal(ex, " MethodArgumentNotValidException \n" + ex.getMessage(), headers, HttpStatus.BAD_REQUEST, request);
     }
 
@@ -71,29 +63,28 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     // Rodrigue Tchuensu P.
     // DuplicateEntityException handling
     @ExceptionHandler(value = {DuplicateEntityException.class})
-    protected ResponseEntity<Object> handleDuplicatEntity(final RuntimeException rtex, final WebRequest request) {
-        //final String bodyOfResponse = "This Request is forbidden for some reason";
-        return handleExceptionInternal(rtex, rtex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    protected ResponseEntity<Object> handleDuplicatEntity(final RuntimeException ex, final WebRequest request) {
+
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
 
 
     //Rodrigue Tchuensu P. Contribution
     //401 Unauthorized
-    @ExceptionHandler(value = {UnauthorizedException.class})
-    protected ResponseEntity<Object> handleUnauthorized(final RuntimeException rtex, final WebRequest request) {
-        //final String bodyOfResponse = "This request is forbidden, user not authenticated";
-        return handleExceptionInternal(rtex, rtex.getMessage(), new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
+    @ExceptionHandler(value = {UnauthorizedException.class, UserCredentialException.class})
+    protected ResponseEntity<Object> handleUnauthorized(final RuntimeException ex, final WebRequest request) {
+
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
     }
 
     // 402 Payment Required - This code is reserved for future use.
 
     // Rodrigue Tchuensu P. Contribution
     //403 Forbidden
-    @ExceptionHandler(value = {ForbiddenException.class, UserCredentialException.class})
-    protected ResponseEntity<Object> handleForbidden(final RuntimeException rtex, final WebRequest request) {
-        //final String bodyOfResponse = "This Request is forbidden for some reason";
-        return handleExceptionInternal(rtex, rtex.getMessage(), new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+    @ExceptionHandler(value = {ForbiddenException.class})
+    protected ResponseEntity<Object> handleForbidden(final RuntimeException ex, final WebRequest request) {
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.FORBIDDEN, request);
     }
 
 
@@ -118,8 +109,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler({ InvalidDataAccessApiUsageException.class, DataAccessException.class })
     protected ResponseEntity<Object> handleConflict(final RuntimeException ex, final WebRequest request) {
-        final String bodyOfResponse = "This should be application specific";
-        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
     //  410 Gone
@@ -128,9 +118,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     // 412 Precondition Failed
     @ExceptionHandler(value = {RequestHeaderException.class})
-    protected ResponseEntity<Object> handleHeaderPrecondition(final RuntimeException rtex, final WebRequest request) {
-        //final String bodyOfResponse = "This Request is forbidden for some reason";
-        return handleExceptionInternal(rtex, rtex.getMessage(), new HttpHeaders(), HttpStatus.PRECONDITION_FAILED, request);
+    protected ResponseEntity<Object> handleHeaderPrecondition(final RuntimeException ex, final WebRequest request) {
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.PRECONDITION_FAILED, request);
     }
 
     // 413 Request Entity Too Large
@@ -153,7 +142,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler({ NullPointerException.class, IllegalArgumentException.class, IllegalStateException.class })
     /*500*/public ResponseEntity<Object> handleInternal(final RuntimeException ex, final WebRequest request) {
         logger.error("500 Status Code", ex);
-        //final String bodyOfResponse = "This should be application specific";
         return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 

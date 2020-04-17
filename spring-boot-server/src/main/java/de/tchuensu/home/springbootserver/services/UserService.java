@@ -60,4 +60,12 @@ public interface UserService {
     // Delete
 
 
+    /**
+     *
+     * @param username
+     * @return
+     */
+    public Long getUserId(String username);
+
+
 }

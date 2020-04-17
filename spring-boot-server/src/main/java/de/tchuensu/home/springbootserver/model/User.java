@@ -26,9 +26,6 @@ public class User {
     @Column(name = "password_hash")
     private String passwordHash;
 
-    @Column(name = "can_access_any_data" )
-    private boolean canAccessAllData;
-
     public User() {}
 
     //It is the responsibility of the user of this class to initiate the user with a password hash and not a plaintext password
@@ -36,23 +33,11 @@ public class User {
         this.username = username;
         this.email = email;
         this.passwordHash = passwordHash;
-        this.canAccessAllData = false;
-    }
-
-    public User(String username, String email, String passwordHash, boolean canAccessAllData) {
-        this.username = username;
-        this.email = email;
-        this.passwordHash = passwordHash;
-        this.canAccessAllData = canAccessAllData;
     }
 
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {
@@ -79,21 +64,12 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    public boolean isCanAccessAllData() {
-        return canAccessAllData;
-    }
-
-    public void setCanAccessAllData(boolean canAccessAllData) {
-        this.canAccessAllData = canAccessAllData;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return isCanAccessAllData() == user.isCanAccessAllData() &&
-                getId().equals(user.getId()) &&
+        return  getId().equals(user.getId()) &&
                 getUsername().equals(user.getUsername()) &&
                 getEmail().equals(user.getEmail()) &&
                 getPasswordHash().equals(user.getPasswordHash());
@@ -101,7 +77,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getEmail(), getPasswordHash(), isCanAccessAllData());
+        return Objects.hash(getId(), getUsername(), getEmail(), getPasswordHash());
     }
 
     @Override
@@ -111,7 +87,6 @@ public class User {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
-                ", canAccessAllData=" + canAccessAllData +
                 '}';
     }
 }
