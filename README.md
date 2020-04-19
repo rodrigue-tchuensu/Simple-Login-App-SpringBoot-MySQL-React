@@ -30,7 +30,7 @@ To achieve the goal of the application, a single table named "user"  was require
 
 This table looks as follows:
 
-![img_01](images\img_01.PNG)
+![img_01](./images/img_01.PNG)
 
 This table is used to keep track of users who have been signed into our application and can hence be authenticated by our system.
 
@@ -93,7 +93,15 @@ and then retry step 3
 
 NB:  the `<ip>` depends on how you have installed and configured Docker. It can be localhost if you run Docker natively on Linux. It can also be `192.168.99.100` if you have a default Docker machine. 
 
+When the application deployment using the script is successful, here are some credentials to test the app without previously signing up:
 
+username: **admin**	&&	password: **@dmin**
+
+username: **mueller**	&&	password: **#Sicherheit**
+
+Phpmyadmin is also deployed in the docker-compose configuration. This can be used to check the state of the MySQL database. The deployed phpmyadmin is accessible any web browser at the address `<ip>`:6060 for the details of the `<ip>` refer to **NB** above.   To log in use the following credentials:
+
+username: **root**	&&	password: **root** 
 
 ###### Manual deployment 
 
