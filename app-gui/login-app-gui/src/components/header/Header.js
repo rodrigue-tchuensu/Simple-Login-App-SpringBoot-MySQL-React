@@ -12,6 +12,7 @@ import {Link, withRouter} from 'react-router-dom'
 
 
 const request = require ('../../resources/request');
+const APP_CONSTANTS = require ('../../ApplicationConstants')
 /*
 const styles = {
   menusButton: {
@@ -26,7 +27,7 @@ const Header = withRouter( ({history}) => (
     <Toolbar>
       {
         (<span>
-          <Link to="/">
+          <Link to={APP_CONSTANTS.HOME_URL}>
             <IconButton aria-label="Home" style={{color: '#ffffff'}}>
               <HomeIcon/>
             </IconButton>
@@ -35,7 +36,7 @@ const Header = withRouter( ({history}) => (
       }
       {
         !request.auth.isAuthenticated() && (<span>
-          <Link to="/simple-app/login">
+          <Link to={APP_CONSTANTS.LOGIN_URL}>
             <Button style={{color: '#ffffff'}}>
                 Login 
             </Button>
@@ -44,7 +45,7 @@ const Header = withRouter( ({history}) => (
       }
       {
         !request.auth.isAuthenticated() && (<span>
-          <Link to="/simple-app/sign-up">
+          <Link to={APP_CONSTANTS.SIGNUP_URL}>
             <Button style={{color: '#ffffff'}}>
                 Sign-Up 
             </Button>
@@ -55,7 +56,7 @@ const Header = withRouter( ({history}) => (
         request.auth.isAuthenticated() && (<span>
           <Button style={{color: '#ffffff'}}
                   onClick = { () => {
-                    request.auth.logout(() => history.push('/'))
+                    request.auth.logout(() => history.push(APP_CONSTANTS.HOME_URL))
                   }}
           >
               Logout

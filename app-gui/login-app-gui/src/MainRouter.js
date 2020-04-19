@@ -9,6 +9,8 @@ import SignUp from './components/signUp/SignUp'
 
 const request = require ('./resources/request');
 
+const APP_CONSTANTS = require('./ApplicationConstants');
+
 
 
 //inspired from https://reacttraining.com/react-router/web/example/auth-workflow
@@ -18,7 +20,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
       <Component {...props}/>
     ) : (
       <Redirect to={{
-        pathname: '/simple-app/login',
+        pathname: APP_CONSTANTS.LOGIN_URL,
         state: { from: props.location }
       }}/>
     )
@@ -32,11 +34,11 @@ class MainRouter extends Component {
       <Header/>      
 
       <Switch>
-        <Route exact path="/" component={Home}/>
-        <Route path="/simple-app/login" component={Login}/>
-        <Route path="/simple-app/sign-up" component={SignUp}/>
-        <PrivateRoute path="/simple-app/user" component={Welcome}/>
-        <Route path="*" render={ () => <Redirect to="/simple-app/login"/>}/>
+        <Route exact path={APP_CONSTANTS.HOME_URL} component={Home}/>
+        <Route path={APP_CONSTANTS.LOGIN_URL} component={Login}/>
+        <Route path={APP_CONSTANTS.SIGNUP_URL} component={SignUp}/>
+        <PrivateRoute path={APP_CONSTANTS.WELCOME_URL} component={Welcome}/>
+        <Route path="*" render={ () => <Redirect to={APP_CONSTANTS.LOGIN_URL}/>}/>
       </Switch>
 
     </div>)

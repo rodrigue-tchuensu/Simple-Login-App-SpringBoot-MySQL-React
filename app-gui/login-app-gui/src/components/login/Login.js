@@ -11,6 +11,7 @@ import {withStyles} from '@material-ui/core/styles'
 import {Redirect} from 'react-router-dom'
 
 const request = require ('../../resources/request');
+const APP_CONSTONSTS = require ('../../ApplicationConstants')
 
 const styles = theme => ({
   card: {
@@ -85,7 +86,7 @@ class Login extends Component {
     const {classes} = this.props
     const {from} = this.props.location.state || {
       from: {
-        pathname: '/simple-app/user'
+        pathname: APP_CONSTONSTS.WELCOME_URL
       }
     }
     const {redirectToReferrer} = this.state

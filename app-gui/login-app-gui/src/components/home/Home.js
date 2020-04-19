@@ -29,7 +29,7 @@ class Home extends Component {
           <Typography type="headline" component="h2" className={classes.title}>
           Welcome to the Simple App Home Page
           </Typography>
-          <CardMedia className={classes.media} image={homePageImage} title="Meshlium Scanner Infrastructure"/>
+          <CardMedia className={classes.media} image={homePageImage} />
         </Card>
     )
   }

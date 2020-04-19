@@ -4,6 +4,8 @@ import {withStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import EmojiEmotionsTwoToneIcon from '@material-ui/icons/EmojiEmotionsTwoTone';
+import { yellow } from '@material-ui/core/colors';
 import welcomePageImage from './../../assets/images/welcome.jpg';
 const request = require ('../../resources/request');
 
@@ -47,7 +49,12 @@ class Welcome extends Component {
     return (
         <Card className={classes.card}>
           <Typography type="headline" component="h2" className={classes.title}>
-          Welcome {this.state.user.username}
+            <center> 
+              Welcome To the Login Platform <br/>
+              You are logged in as: {this.state.user.username} <br/>
+              Your e-mail address is: {this.state.user.email} <br/>
+              Your password is: ******** got YOU <EmojiEmotionsTwoToneIcon style={{ color: yellow[700] }}/>
+              </center>
           </Typography>
           <CardMedia className={classes.media} image={welcomePageImage} title="User Welcome Page Image"/>
         </Card>

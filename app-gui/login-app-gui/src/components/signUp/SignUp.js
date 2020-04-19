@@ -16,6 +16,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import {Link} from 'react-router-dom'
 
 const request = require ('../../resources/request');
+const APP_CONSTONSTS = require ('../../ApplicationConstants')
 
 const styles = theme => ({
   card: {
@@ -93,7 +94,7 @@ class SignUp extends Component {
       <Card className={classes.card}>
         <CardContent>
           <Typography type="headline" component="h2" className={classes.title}>
-            Welcome to the Simple App platform. Sign-up to see more.
+            Welcome to the Simple App Platform. Sign-up to see more.
           </Typography>
           <TextField required id="username" label="Username" className={classes.textField} value={this.state.username} onChange={this.handleChange('username')} margin="normal"/><br/>
           <TextField required id="email" type="email" label="Email" className={classes.textField} value={this.state.email} onChange={this.handleChange('email')} margin="normal"/><br/>
@@ -110,24 +111,24 @@ class SignUp extends Component {
         </CardActions>
       </Card>
       <Dialog open={this.state.open} disableBackdropClick={true}>
-        <DialogTitle>New User Creation</DialogTitle>
+        <DialogTitle>User Sign-Up</DialogTitle>
         
           {
             this.state.userCreatedAndSaved ?(<span>
               <DialogContent>
                 <DialogContentText>
-                  User successfully created.
+                  User successfully signed up.
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Link to="/">
+                <Link to={APP_CONSTONSTS.HOME_URL}>
                   <Button color="primary" autoFocus="autoFocus" variant="raised">
                     Home
                   </Button>
                 </Link>
-                <Link to="/register/user">
+                <Link to={APP_CONSTONSTS.LOGIN_URL}>
                   <Button color="primary" autoFocus="autoFocus" variant="raised">
-                    Register Another user
+                    Login
                   </Button>
                 </Link>
               </DialogActions>
@@ -136,17 +137,17 @@ class SignUp extends Component {
               <DialogContent>
                 <DialogContentText>
                 <Icon color="error" className={classes.error}>error</Icon>
-                  The user account could not be created.<br/>
+                  Sign-Up Failed.<br/>
                   The username might already be in use
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Link to="/">
+                <Link to={APP_CONSTONSTS.HOME_URL}>
                   <Button color="primary" autoFocus="autoFocus" variant="raised">
                     Home
                   </Button>
                 </Link>
-                <Link to="/register/user">
+                <Link to={APP_CONSTONSTS.SIGNUP_URL}>
                   <Button color="primary" autoFocus="autoFocus" variant="raised">
                     Try Again
                   </Button>
