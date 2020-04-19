@@ -34,6 +34,7 @@ class MainRouter extends Component {
       <Header/>      
 
       <Switch>
+        <Route exact path='/' component={Home}/>
         <Route exact path={APP_CONSTANTS.HOME_URL} component={Home}/>
         <Route path={APP_CONSTANTS.LOGIN_URL} component={Login}/>
         <Route path={APP_CONSTANTS.SIGNUP_URL} component={SignUp}/>
