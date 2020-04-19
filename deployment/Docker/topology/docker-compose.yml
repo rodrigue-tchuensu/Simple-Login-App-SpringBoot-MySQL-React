@@ -1,5 +1,5 @@
 
-version: '2'
+version: '3.1'
 
 # Define Services
 
@@ -24,6 +24,10 @@ services:
     build: ../docker-images/php-my-admin
     environment:
       - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=login_db
+      - MYSQL_USER=spring-server
+      - MYSQL_PASSWORD=@Spring
+      
     ports:
       - "6060:80"
     links:
@@ -41,7 +45,7 @@ services:
      - mysql
     environment:
     
-     SPRING_DATASOURCE_URL: jdbc:mysql://172.16.238.15:3306/registration_and_login_app_db
+     SPRING_DATASOURCE_URL: jdbc:mysql://172.16.238.15:3306/login_db
      
      SPRING_DATASOURCE_USERNAME: root
      

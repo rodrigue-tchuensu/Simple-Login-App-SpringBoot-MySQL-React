@@ -46,7 +46,7 @@ cd Simple-Login-App-SpringBoot-MySQL-React/spring-boot-server
 mvn clean package install 
 
 # Copy the jar found in the target directory to the spring-server docker directory 
-cp target/spring-boot-server-0.0.1-SNAPSHOT.jar ../../../deployment/Docker/docker-images/spring-server/
+cp target/spring-boot-server-0.0.1-SNAPSHOT.jar ../../../deployment/Docker/docker-images/spring-server/spring-boot-server-0.0.1-SNAPSHOT.jar 
 
 # Exit the server directory 
 cd ../../..
@@ -57,10 +57,9 @@ rm -rf tmp_gui tmp_server
 # Access the docker-compose file 
 cd deployment/Docker/topology/
 
-# Launch and build the docker-compose config
+# Build and Launch the docker-compose config
 docker-compose up --build
-
-
+#docker-compose up
 
 
 #git config --system core.longpaths true

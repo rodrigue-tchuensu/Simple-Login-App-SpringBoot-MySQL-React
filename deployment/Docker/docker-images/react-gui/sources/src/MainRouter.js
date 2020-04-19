@@ -4,8 +4,8 @@ import {Route, Switch,  Redirect} from 'react-router-dom'
 import Header from './components/header/Header'
 import Home from './components/home/Home'
 import Login from './components/login/Login'
-
 import Welcome from './components/welcome/Welcome'
+import SignUp from './components/signUp/SignUp'
 
 const request = require ('./resources/request');
 
@@ -34,6 +34,7 @@ class MainRouter extends Component {
       <Switch>
         <Route exact path="/" component={Home}/>
         <Route path="/simple-app/login" component={Login}/>
+        <Route path="/simple-app/sign-up" component={SignUp}/>
         <PrivateRoute path="/simple-app/user" component={Welcome}/>
         <Route path="*" render={ () => <Redirect to="/simple-app/login"/>}/>
       </Switch>

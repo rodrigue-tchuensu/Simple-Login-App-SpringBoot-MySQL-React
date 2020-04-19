@@ -60,12 +60,12 @@ class Login extends Component {
       {
         console.log("An error has been encountered")
         console.log(err)
-        this.setState({error: "login error"})
+        this.setState({error: "login failed"})
       }
       else
       {
-        console.log("The value of res: " + res)
-        request.auth.authenticate(res.text, () => {
+        //console.log("The value of res: " + res)
+        request.auth.authenticate(res.headers.authorization.split(' ')[1], () => {
           this.setState({redirectToReferrer: true})
         })
       }
