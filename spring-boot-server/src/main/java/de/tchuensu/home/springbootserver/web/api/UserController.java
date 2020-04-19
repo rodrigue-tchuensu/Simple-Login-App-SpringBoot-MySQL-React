@@ -1,6 +1,7 @@
 package de.tchuensu.home.springbootserver.web.api;
 
 
+import de.tchuensu.home.springbootserver.dao.dto.model.UserDetails;
 import de.tchuensu.home.springbootserver.dao.dto.model.UserDto;
 import de.tchuensu.home.springbootserver.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,11 @@ public class UserController {
     }
 
     @GetMapping(value= "/{username}")
-    public ResponseEntity<UserDto> getUser(@RequestHeader("Authorization") String authenticationToken, @PathVariable String username) {
+    public ResponseEntity<UserDetails> getUser(@RequestHeader("Authorization") String authenticationToken, @PathVariable String username) {
 
         UserDto user= userService.getUserByUsername(username);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        UserDetails userDetails = new UserDetails(user.getUsername(), user.getEmail());
+        return new ResponseEntity<>(userDetails, HttpStatus.OK);
     }
 
 
