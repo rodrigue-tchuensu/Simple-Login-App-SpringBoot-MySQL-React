@@ -22,7 +22,7 @@ public interface UserService {
      * @param userDto
      * @return
      */
-    User addUser(UserDto userDto);
+    UserDto create(UserDto userDto);
     //void changePassword(User user, String newPassword);
 
 
@@ -34,7 +34,7 @@ public interface UserService {
      * @param username
      * @return
      */
-    UserDto getUserByUsername(String username);
+    UserDto getByUsername(String username);
 
     /**
      *
@@ -51,21 +51,13 @@ public interface UserService {
      *
      * @return
      */
-    List<UserDto> getAllUsers();
+    List<UserDto> getUsers();
 
 
     // Update
 
 
     // Delete
-
-
-    /**
-     *
-     * @param username
-     * @return
-     */
-    public Long getUserId(String username);
 
 
 }

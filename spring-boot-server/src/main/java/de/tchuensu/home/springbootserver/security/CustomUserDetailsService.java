@@ -22,7 +22,7 @@ public class CustomUserDetailsService  implements UserDetailsService {
 
         UserDto user;
         try {
-            user = userService.getUserByUsername(username);
+            user = userService.getByUsername(username);
         } catch(ResourceNotFoundException e) {
             throw new UsernameNotFoundException(e.getMessage());
         }

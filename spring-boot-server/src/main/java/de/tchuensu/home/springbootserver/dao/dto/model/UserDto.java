@@ -1,12 +1,21 @@
 package de.tchuensu.home.springbootserver.dao.dto.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 
 public class UserDto {
     private String username;
     private String email;
+
+    @JsonIgnore
     private String password;
 
+
+    public UserDto(String username, String email) {
+        this.username = username;
+        this.email = email;
+    }
 
     public UserDto(String username, String email, String password) {
         this.username = username;

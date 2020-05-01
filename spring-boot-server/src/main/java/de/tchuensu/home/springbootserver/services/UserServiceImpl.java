@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public User addUser(UserDto userDto) {
+    public UserDto create(UserDto userDto) {
 
         // We check that the user we are trying to register is not using a username or a password which is already in use
         if( ( userRepository.findUserByUsername(userDto.getUsername()) ) != null) {
@@ -44,11 +44,11 @@ public class UserServiceImpl implements UserService {
                              bCryptPasswordEncoder.encode(userDto.getPassword()));
 
         userRepository.save(user);
-        return user;
+        return UserMapper.toUserDto(user);
     }
 
     @Override
-    public UserDto getUserByUsername(String username) {
+    public UserDto getByUsername(String username) {
 
         User user = RestPreconditions.checkFound( userRepository.findUserByUsername(username), "The user with name " + username + " was not found");
         return UserMapper.toUserDto(user);
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
+    public List<UserDto> getUsers() {
 
         List<User> lisOfUsers = RestPreconditions.checkFound(userRepository.findAll(), "");
         List<UserDto> userDtoList = new LinkedList<>();
@@ -70,17 +70,6 @@ public class UserServiceImpl implements UserService {
             userDtoList.add(UserMapper.toUserDto(user));
         }
         return userDtoList;
-    }
-
-    @Override
-    public Long getUserId(String username) {
-
-        User user = userRepository.findUserByUsername(username);
-        if(user == null) {
-
-            throw new NullPointerException("The user with username: " + username + " was not found.");
-        }
-        return user.getId();
     }
 
 }
